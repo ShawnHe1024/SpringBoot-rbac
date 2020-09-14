@@ -1,0 +1,33 @@
+Configuration:
+  Appenders:
+    Console:
+      name: CONSOLE
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%highlight{%d{HH:mm:ss} [%t] %-5level %logger{36}} - %msg%n"
+    RollingFile:
+      name: RollingFile
+      ignoreExceptions: false
+      fileName: "/home/hx/log/admin/admin.log"
+      filePattern: "/home/hx/log/admin/admin-%d{yyyy-MM-dd-HH-mm}.log"
+      PatternLayout:
+        Pattern: "%d{yyyy-MM-dd HH:mm} [%t] %-5level %logger{36} - %msg%n"
+      Policies:
+        SizeBasedTriggeringPolicy:
+          size: 5MB
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        ref: CONSOLE
+    Logger:
+      - level: debug
+        name: pers.shawn.rbac.module.rbac.mapper
+        additivity: false
+        AppenderRef:
+          - ref: CONSOLE
+          - ref: RollingFile
+      - level: error
+        name: pers.shawn.rbac
+        AppenderRef:
+          ref: RollingFile

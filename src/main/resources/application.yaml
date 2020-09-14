@@ -1,0 +1,15 @@
+server:
+  port: 8081
+  servlet:
+    session:
+      cookie:
+        http-only: true
+#  error:
+#    whitelabel:
+#      enabled: false
+  undertow:
+    io-threads: 4
+spring:
+  profiles:
+    active:
+      - dev
