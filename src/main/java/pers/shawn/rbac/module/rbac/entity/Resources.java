@@ -38,8 +38,8 @@ public class Resources implements Serializable {
      */
     @ApiModelProperty(hidden = true)
     @Null(message = "主键新增时必须为Null")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 父级id

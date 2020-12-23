@@ -15,5 +15,5 @@ import java.util.List;
  */
 public interface IRoleResourcesService extends IService<RoleResources> {
 
-    List<Integer> getRoleResourceList(Integer roleId);
+    List<Long> getRoleResourceList(Long roleId);
 }

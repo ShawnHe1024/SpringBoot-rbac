@@ -80,25 +80,26 @@ public class PublicController {
             BeanUtils.copyProperties(user, loginUser);
             String token = UUID.randomUUID().toString().replace("-", "");
             loginUser.setToken(token);
-            List<Resources> resources =  iUserRoleService.getUserRoleResources(loginUser.getId(), Constants.RESOURCE_TYPE_API);
+            //Todo:接口权限部分待修改
+//            List<Resources> resources =  iUserRoleService.getUserRoleResources(loginUser.getId(), Constants.RESOURCE_TYPE_API);
 
-            if (resources.size() > 0) {
-                redisTemplate.multi();
-                redisTemplate.opsForHash().putAll(Constants.REDIS_HASH_PREFIX+token,
-                        resources.stream().distinct().collect(
-                                Collectors.toMap(Resources::getUrl, r -> r)
-                        )
-                );
-                redisTemplate.expire(Constants.REDIS_HASH_PREFIX+token, Constants.TOKEN_EXPIRE_TIME);
-                redisTemplate.opsForValue().set(Constants.REDIS_STR_PREFIX+token, loginUser, Constants.TOKEN_EXPIRE_TIME);
-                try {
-                    redisTemplate.exec();
-                } catch (Exception e) {
-                    logger.error("redis事务提交失败", e);
-                    return new ResultBean<>(ResultCode.BUSINESS_FAILED);
-                }
-                return ResultBean.success(loginUser);
-            }
+//            if (resources.size() > 0) {
+//                redisTemplate.multi();
+//                redisTemplate.opsForHash().putAll(Constants.REDIS_HASH_PREFIX+token,
+//                        resources.stream().distinct().collect(
+//                                Collectors.toMap(Resources::getUrl, r -> r)
+//                        )
+//                );
+//                redisTemplate.expire(Constants.REDIS_HASH_PREFIX+token, Constants.TOKEN_EXPIRE_TIME);
+//                redisTemplate.opsForValue().set(Constants.REDIS_STR_PREFIX+token, loginUser, Constants.TOKEN_EXPIRE_TIME);
+//                try {
+//                    redisTemplate.exec();
+//                } catch (Exception e) {
+//                    logger.error("redis事务提交失败", e);
+//                    return new ResultBean<>(ResultCode.BUSINESS_FAILED);
+//                }
+//                return ResultBean.success(loginUser);
+//            }
             return new ResultBean<>(ResultCode.ACCESS_DENIED);
         }
         return new ResultBean<>(ResultCode.USERINFO_WRONG);

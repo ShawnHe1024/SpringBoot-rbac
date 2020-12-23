@@ -24,7 +24,7 @@ public class RoleResourcesServiceImpl extends ServiceImpl<RoleResourcesMapper, R
     private RoleResourcesMapper roleResourcesMapper;
 
     @Override
-    public List<Integer> getRoleResourceList(Integer roleId) {
+    public List<Long> getRoleResourceList(Long roleId) {
         return roleResourcesMapper.getRoleResourceList(roleId);
     }
 

@@ -36,15 +36,14 @@ public class User implements Serializable {
      * 主键
      */
     @ApiModelProperty(hidden = true)
-    @TableId(value = "id", type = IdType.AUTO)
     @Null(message = "主键新增时必须为Null")
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 用户名
      */
     @ExcelProperty(index = 0)
-//    @ExcelProperty(index = 4, converter = GAStatusConverter.class)
     @ApiModelProperty(value = "用户名")
     @NotBlank(message = "用户名不能为空")
     @Length(min = 3, max = 16, message = "用户名长度在3-16之间")
@@ -92,6 +91,12 @@ public class User implements Serializable {
     @NotBlank(message = "手机号不能为空")
     @Length(min = 11, max = 11, message = "目前只支持11位手机号")
     private String phone;
+
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像")
+    private String avatar;
 
     /**
      * 创建时间

@@ -17,8 +17,20 @@ public class ResultBean<T> {
         return new ResultBean<>(ResultCode.SUCCESS);
     }
 
+    public static ResultBean<Object> missingParam() {
+        return new ResultBean<>(ResultCode.MISSING_PARAMETERS);
+    }
+
     public static ResultBean<Object> success(Object data) {
         return new ResultBean<>(ResultCode.SUCCESS, data);
+    }
+
+    public static ResultBean<Object> failed() {
+        return new ResultBean<>(ResultCode.BUSINESS_FAILED);
+    }
+
+    public static ResultBean<Object> failed(String msg) {
+        return new ResultBean<>(ResultCode.BUSINESS_FAILED, msg, null);
     }
 
     public ResultBean(ResultCode resultCode, String message, T data) {

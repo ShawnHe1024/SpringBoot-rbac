@@ -1,6 +1,9 @@
 package pers.shawn.rbac.module.rbac.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import pers.shawn.rbac.module.rbac.entity.Resources;
+import pers.shawn.rbac.module.rbac.entity.User;
 import pers.shawn.rbac.module.rbac.entity.UserRole;
 import pers.shawn.rbac.module.rbac.mapper.UserRoleMapper;
 import pers.shawn.rbac.module.rbac.service.IUserRoleService;
@@ -25,18 +28,23 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     private UserRoleMapper userRoleMapper;
 
     @Override
-    public List<UserRole> getUserRoleList(Integer userId) {
+    public List<UserRole> getUserRoleList(Long userId) {
         return userRoleMapper.getUserRoleList(userId);
     }
 
     @Override
-    public List<UserRole> getRoleUserList(Integer roleId) {
-        return userRoleMapper.getRoleUserList(roleId);
+    public IPage<User> getRoleUserList(Page<User> page, Long roleId) {
+        return userRoleMapper.getRoleUserList(page, roleId);
     }
 
     @Override
-    public List<Resources> getUserRoleResources(Integer userId, Integer resourceType) {
-        return userRoleMapper.getUserRoleResources(userId, resourceType);
+    public IPage<User> getUserByNotRoleId(Page<User> page, Long roleId) {
+        return userRoleMapper.getUserByNotRoleId(page, roleId);
+    }
+
+    @Override
+    public List<Resources> getUserRoleResources(Long userId) {
+        return userRoleMapper.getUserRoleResources(userId);
     }
 
 }

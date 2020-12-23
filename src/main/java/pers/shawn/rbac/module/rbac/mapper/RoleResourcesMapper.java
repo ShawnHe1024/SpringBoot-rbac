@@ -32,6 +32,6 @@ public interface RoleResourcesMapper extends BaseMapper<RoleResources> {
             "\t\trole_resources.resource_id = resources.id\n" +
             "WHERE\n" +
             "\trole_resources.role_id = #{roleId}")
-    List<Integer> getRoleResourceList(@Param("roleId") Integer roleId);
+    List<Long> getRoleResourceList(@Param("roleId") Long roleId);
 
 }

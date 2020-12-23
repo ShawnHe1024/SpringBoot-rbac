@@ -12,12 +12,8 @@ import java.util.ResourceBundle;
  **/
 public enum ResultCode {
 
-    // 请求成功
+    // 操作成功
     SUCCESS(0, ""),
-
-    LOGIN_SUCCESS(1, ""),
-
-    LOGOUT_SUCCESS(2, ""),
 
     /**
      * 服务器异常
@@ -35,6 +31,9 @@ public enum ResultCode {
     MISSING_PARAMETERS(20002, ""),
 
     NOT_FOUND(20003, ""),
+
+    //请求文件大小超出限制
+    UPLOAD_FILE_TOOLARGE(20004, ""),
 
     /**
      * 权限异常
@@ -60,8 +59,18 @@ public enum ResultCode {
 
     //业务处理失败
     BUSINESS_FAILED(40000, ""),
+    //用户已注册
     USER_ALREADY_REGISTER(40001, ""),
+    //没有该用户
     NO_SUCH_USER(40002, ""),
+    //Excel导出失败
+    EXPORT_EXCEL_FAILED(40003, ""),
+    //Excel导出无数据
+    EXPORT_EXCEL_EMPTY(40004, ""),
+    //没有查到该数据
+    NOT_FOUND_DATA(40005, ""),
+    //重复数据
+    REPEAT_DATA(40006, ""),
     ;
 
     private int code;

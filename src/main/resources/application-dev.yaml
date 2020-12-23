@@ -22,3 +22,4 @@ mybatis-plus:
   configuration:
     mapUnderscoreToCamelCase: true
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+  mapperLocations: classpath*:com/bjrt/erp/module/**/mapper/xml/*Mapper.xml

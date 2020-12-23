@@ -16,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class BatchResource {
 
-    private Integer roleId;
-    private List<Integer> resourceIds;
+    private Long roleId;
+    private List<Long> objectIds;
 
 }

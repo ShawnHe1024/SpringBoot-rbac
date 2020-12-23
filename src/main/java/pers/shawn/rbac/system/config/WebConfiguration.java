@@ -1,5 +1,6 @@
 package pers.shawn.rbac.system.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import pers.shawn.rbac.system.interceptor.AuthorizationInterceptor;
 import pers.shawn.rbac.system.interceptor.LoginInterceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -87,6 +88,8 @@ public class WebConfiguration implements WebMvcConfigurer {
         om.registerModule(new Jdk8Module());
         om.registerModule(new ParameterNamesModule());
         om.registerModule(new JsonComponentModule());
+
+        om.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return om;
     }

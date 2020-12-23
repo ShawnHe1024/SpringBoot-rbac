@@ -24,12 +24,12 @@ public class RoleResources implements Serializable {
     /**
      * 角色id
      */
-    private Integer roleId;
+    private Long roleId;
 
     /**
      * 资源id
      */
-    private Integer resourceId;
+    private Long resourceId;
 
     /**
      * 创建时间

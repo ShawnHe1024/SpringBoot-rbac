@@ -1,17 +1,20 @@
 package pers.shawn.rbac.module.rbac.controller;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import pers.shawn.rbac.module.rbac.entity.Resources;
-import pers.shawn.rbac.module.rbac.service.IResourcesService;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pers.shawn.rbac.bean.ResultBean;
+import pers.shawn.rbac.bean.ResultCode;
+import pers.shawn.rbac.module.rbac.entity.Resources;
+import pers.shawn.rbac.module.rbac.service.IResourcesService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -19,7 +22,6 @@ import java.util.List;
 
 /**
  * @author shawn
- * @create 2020/8/20 10:26
  * @desc 资源管理相关接口
  **/
 @Api(tags = "资源管理")
@@ -48,7 +50,7 @@ public class ResourcesController {
      */
     @ApiOperation("新增资源")
     @PostMapping("/addResource")
-    public Boolean addResource(
+    public ResultBean<Object> addResource(
             @Valid Resources resources
     ) {
         resources.setName(resources.getName().trim());
@@ -56,11 +58,16 @@ public class ResourcesController {
         if (Boolean.TRUE.equals(
                 iResourcesService.existResources(resources.getName(), resources.getUrl()))
         ) {
-            return false;
+            return new ResultBean<>(ResultCode.REPEAT_DATA);
         }
         resources.setCreateTime(LocalDateTime.now());
         resources.setUpdateTime(LocalDateTime.now());
-        return iResourcesService.save(resources);
+        boolean b =iResourcesService.save(resources);
+        if (b) {
+            return ResultBean.success();
+        } else {
+            return ResultBean.failed("新增资源失败！");
+        }
     }
 
     /**
@@ -72,16 +79,19 @@ public class ResourcesController {
      */
     @ApiOperation("修改资源")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "主键", dataType = "Integer"),
-            @ApiImplicitParam(name = "name", value = "角色名称"),
-            @ApiImplicitParam(name = "desc", value = "角色描述"),
+            @ApiImplicitParam(name = "id", value = "主键"),
+            @ApiImplicitParam(name = "parentId", value = "父级菜单id"),
+            @ApiImplicitParam(name = "type", value = "菜单类型"),
+            @ApiImplicitParam(name = "name", value = "资源名称"),
+            @ApiImplicitParam(name = "url", value = "资源地址"),
+            @ApiImplicitParam(name = "desc", value = "资源描述"),
     })
     @PostMapping("/updResource")
-    public Boolean updRole(
+    public ResultBean updResource(
             @RequestParam(name="id")
-                    Integer id,
+                    Long id,
             @RequestParam(name="parentId", required = false)
-                    Integer parentId,
+                    Long parentId,
             @RequestParam(name="type", required = false)
                     Integer type,
             @Length(min = 2, max = 16, message = "资源名称长度在2-16之间")
@@ -94,20 +104,29 @@ public class ResourcesController {
             @Length(max = 255, message = "资源描述最大为255位")
                     String desc
     ) {
+        if (parentId == null && type == null && StringUtils.isBlank(name) && StringUtils.isBlank(url) && StringUtils.isBlank(desc)) {
+            return new ResultBean<>(ResultCode.MISSING_PARAMETERS);
+        }
         Integer count = iResourcesService.count(new LambdaQueryWrapper<Resources>()
                 .eq(Resources::getId, id)
         );
         if (count <= 0) {
-            return false;
+            return new ResultBean(ResultCode.NOT_FOUND_DATA);
         }
-        Resources resources = new Resources();
-        resources.setId(id);
-        resources.setName(name);
-        resources.setUrl(url);
-        resources.setParentId(parentId);
-        resources.setType(type);
-        resources.setDescription(desc);
-        return iResourcesService.updateById(resources);
+        boolean b = iResourcesService.update(new LambdaUpdateWrapper<Resources>()
+                .set(Resources::getName, name)
+                .set(Resources::getUrl, url)
+                .set(Resources::getParentId, parentId)
+                .set(Resources::getType, type)
+                .set(Resources::getDescription, desc)
+                .set(Resources::getUpdateTime, LocalDateTime.now())
+                .eq(Resources::getId, id)
+        );
+        if (b) {
+            return ResultBean.success();
+        } else {
+            return ResultBean.failed("修改资源失败！");
+        }
     }
 
     /**
@@ -118,7 +137,7 @@ public class ResourcesController {
     @ApiOperation("删除资源")
     @PostMapping("/delResource")
     public Boolean delResource(
-            @RequestParam(name="id") Integer id
+            @RequestParam(name="id") Long id
     ) {
         return iResourcesService.removeById(id);
     }

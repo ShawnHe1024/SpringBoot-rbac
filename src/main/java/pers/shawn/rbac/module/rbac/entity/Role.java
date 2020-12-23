@@ -37,8 +37,8 @@ public class Role implements Serializable {
      */
     @ApiModelProperty(hidden = true)
     @Null(message = "主键新增时必须为Null")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
     /**
      * 角色名称
@@ -47,6 +47,14 @@ public class Role implements Serializable {
     @NotBlank(message = "角色名称不能为空")
     @Length(min = 2, max = 16, message = "角色名称长度在2-16之间")
     private String name;
+
+    /**
+     * 角色编码
+     */
+    @ApiModelProperty(value = "角色编码")
+    @NotBlank(message = "角色编码不能为空")
+    @Length(min = 2, max = 32, message = "角色编码长度在2-32之间")
+    private String roleCode;
 
     /**
      * 角色描述

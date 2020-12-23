@@ -16,7 +16,7 @@
 
     <properties>
         <mysql.version>5.1.47</mysql.version>
-        <mybatisplus-spring-boot-starter.version>3.1.2</mybatisplus-spring-boot-starter.version>
+        <mybatisplus-spring-boot-starter.version>3.3.2</mybatisplus-spring-boot-starter.version>
         <swagger.version>3.0.0</swagger.version>
         <easyexcel.version>2.2.6</easyexcel.version>
     </properties>
@@ -71,7 +71,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -166,6 +166,28 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/*.xlsx</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xlsx</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 
     <repositories>

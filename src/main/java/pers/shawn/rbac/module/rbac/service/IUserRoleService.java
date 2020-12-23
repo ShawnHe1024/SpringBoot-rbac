@@ -1,9 +1,11 @@
 package pers.shawn.rbac.module.rbac.service;
 
-import pers.shawn.rbac.module.rbac.entity.Resources;
-import pers.shawn.rbac.module.rbac.entity.UserRole;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.ibatis.annotations.Param;
+import pers.shawn.rbac.module.rbac.entity.Resources;
+import pers.shawn.rbac.module.rbac.entity.User;
+import pers.shawn.rbac.module.rbac.entity.UserRole;
 
 import java.util.List;
 
@@ -17,9 +19,11 @@ import java.util.List;
  */
 public interface IUserRoleService extends IService<UserRole> {
 
-    List<UserRole> getUserRoleList(@Param("userId") Integer userId);
+    List<UserRole> getUserRoleList(Long userId);
 
-    List<UserRole> getRoleUserList(Integer roleId);
+    IPage<User> getRoleUserList(Page<User> page, Long roleId);
 
-    List<Resources> getUserRoleResources(Integer userId, Integer resourceType);
+    IPage<User> getUserByNotRoleId(Page<User> page, Long roleId);
+
+    List<Resources> getUserRoleResources(Long userId);
 }
